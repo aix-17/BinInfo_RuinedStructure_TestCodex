@@ -1,4 +1,4 @@
-package com.example.bininfo
+package com.example.binlookup
 
 import org.junit.Test
 
