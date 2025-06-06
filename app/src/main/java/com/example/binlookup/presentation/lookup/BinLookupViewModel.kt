@@ -1,5 +1,6 @@
 package com.example.binlookup.presentation.lookup
 
+import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -9,11 +10,13 @@ import com.example.binlookup.domain.model.BinInfo
 import com.example.binlookup.domain.use_case.GetBinInfoUseCase
 import com.example.binlookup.domain.use_case.InsertBinHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class BinLookupViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val getBinInfoUseCase: GetBinInfoUseCase,
     private val insertBinHistoryUseCase: InsertBinHistoryUseCase
 ) : ViewModel() {
@@ -29,7 +32,7 @@ class BinLookupViewModel @Inject constructor(
             is BinLookupEvent.LookupBin -> {
                 if (_state.value.bin.length < 6) {
                     _state.value = _state.value.copy(
-                        error = "BIN номер должен содержать минимум 6 цифр"
+                        error = context.getString(R.string.bin_error_length)
                     )
                     return
                 }
@@ -66,7 +69,7 @@ class BinLookupViewModel @Inject constructor(
                             } catch (e: Exception) {
                                 _state.value = _state.value.copy(
                                     isLoading = false,
-                                    error = "Ошибка при сохранении в историю: ${e.localizedMessage}"
+                                    error = context.getString(R.string.save_error, e.localizedMessage ?: "")
                                 )
                             }
                         }
@@ -74,7 +77,7 @@ class BinLookupViewModel @Inject constructor(
                     is Resource.Error -> {
                         _state.value = _state.value.copy(
                             isLoading = false,
-                            error = result.message ?: "Произошла неизвестная ошибка"
+                            error = result.message ?: context.getString(R.string.unknown_error)
                         )
                     }
                     is Resource.Loading -> {
@@ -84,7 +87,7 @@ class BinLookupViewModel @Inject constructor(
             } catch (e: Exception) {
                 _state.value = _state.value.copy(
                     isLoading = false,
-                    error = "Произошла ошибка: ${e.localizedMessage}"
+                    error = context.getString(R.string.general_error, e.localizedMessage ?: "")
                 )
             }
         }

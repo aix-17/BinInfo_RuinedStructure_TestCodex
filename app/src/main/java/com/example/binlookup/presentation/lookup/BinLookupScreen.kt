@@ -10,6 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.binlookup.core.util.IntentUtils
 import com.example.binlookup.presentation.components.BinInfoCard
+import com.example.binlookup.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,7 +43,7 @@ fun BinLookupScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "BIN Lookup",
+                text = stringResource(R.string.title_bin_lookup),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -49,7 +51,7 @@ fun BinLookupScreen(
             IconButton(onClick = onNavigateToHistory) {
                 Icon(
                     imageVector = Icons.Default.History,
-                    contentDescription = "История"
+                    contentDescription = stringResource(R.string.desc_history)
                 )
             }
         }
@@ -65,8 +67,8 @@ fun BinLookupScreen(
                     viewModel.onEvent(BinLookupEvent.EnteredBin(it))
                 }
             },
-            label = { Text("Введите BIN номер") },
-            placeholder = { Text("Например: 431940") },
+            label = { Text(stringResource(R.string.bin_number_label)) },
+            placeholder = { Text(stringResource(R.string.bin_number_placeholder)) },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Search
@@ -88,7 +90,7 @@ fun BinLookupScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Search,
-                        contentDescription = "Поиск"
+                        contentDescription = stringResource(R.string.desc_search)
                     )
                 }
             },
@@ -99,7 +101,7 @@ fun BinLookupScreen(
         
         if (state.bin.isNotEmpty() && state.bin.length < 6) {
             Text(
-                text = "BIN номер должен содержать минимум 6 цифр",
+                text = stringResource(R.string.bin_error_length),
                 color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(start = 16.dp, top = 4.dp)
@@ -123,7 +125,7 @@ fun BinLookupScreen(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
             }
-            Text("Найти информацию")
+            Text(stringResource(R.string.btn_search))
         }
         
         Spacer(modifier = Modifier.height(24.dp))
