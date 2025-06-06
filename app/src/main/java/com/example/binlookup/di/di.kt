@@ -65,8 +65,9 @@ object AppModule {
     @Singleton
     fun provideBinLookupRepository(
         api: BinLookupApi,
-        dao: BinHistoryDao
+        dao: BinHistoryDao,
+        @ApplicationContext context: Context
     ): BinLookupRepository {
-        return BinLookupRepositoryImpl(api, dao)
+        return BinLookupRepositoryImpl(api, dao, context)
     }
 }

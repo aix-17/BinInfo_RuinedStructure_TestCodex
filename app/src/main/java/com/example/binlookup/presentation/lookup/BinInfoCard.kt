@@ -8,11 +8,13 @@ import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.binlookup.domain.model.BinInfo
+import com.example.binlookup.R
 
 @Composable
 fun BinInfoCard(
@@ -31,7 +33,7 @@ fun BinInfoCard(
         ) {
             // BIN number
             Text(
-                text = "BIN: ${binInfo.bin}",
+                text = stringResource(R.string.bin_text, binInfo.bin),
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold
             )
@@ -44,10 +46,13 @@ fun BinInfoCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    InfoRow("Тип", binInfo.scheme?.uppercase() ?: "N/A")
-                    InfoRow("Категория", binInfo.type?.uppercase() ?: "N/A")
-                    InfoRow("Бренд", binInfo.brand ?: "N/A")
-                    InfoRow("Предоплаченная", if (binInfo.prepaid == true) "Да" else "Нет")
+                    InfoRow(stringResource(R.string.label_type), binInfo.scheme?.uppercase() ?: stringResource(R.string.not_available))
+                    InfoRow(stringResource(R.string.label_category), binInfo.type?.uppercase() ?: stringResource(R.string.not_available))
+                    InfoRow(stringResource(R.string.label_brand), binInfo.brand ?: stringResource(R.string.not_available))
+                    InfoRow(
+                        stringResource(R.string.label_prepaid),
+                        if (binInfo.prepaid == true) stringResource(R.string.yes) else stringResource(R.string.no)
+                    )
                 }
             }
             
@@ -58,7 +63,7 @@ fun BinInfoCard(
                 Spacer(modifier = Modifier.height(16.dp))
                 
                 Text(
-                    text = "Страна",
+                    text = stringResource(R.string.section_country),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -81,7 +86,7 @@ fun BinInfoCard(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.LocationOn,
-                                contentDescription = "Показать на карте",
+                                contentDescription = stringResource(R.string.desc_show_on_map),
                                 tint = MaterialTheme.colorScheme.primary
                             )
                         }
@@ -90,7 +95,11 @@ fun BinInfoCard(
                 
                 if (binInfo.latitude != null && binInfo.longitude != null) {
                     Text(
-                        text = "Координаты: ${binInfo.latitude}, ${binInfo.longitude}",
+                        text = stringResource(
+                            R.string.coordinates,
+                            binInfo.latitude,
+                            binInfo.longitude
+                        ),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.clickable {
@@ -107,15 +116,15 @@ fun BinInfoCard(
                 Spacer(modifier = Modifier.height(16.dp))
                 
                 Text(
-                    text = "Банк",
+                    text = stringResource(R.string.section_bank),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 
-                InfoRow("Название", bankName)
+                InfoRow(stringResource(R.string.label_name), bankName)
                 binInfo.bankCity?.let { city ->
-                    InfoRow("Город", city)
+                    InfoRow(stringResource(R.string.label_city), city)
                 }
                 
                 // Clickable bank URL
@@ -129,7 +138,7 @@ fun BinInfoCard(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Public,
-                            contentDescription = "Сайт банка",
+                            contentDescription = stringResource(R.string.desc_bank_site),
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(16.dp)
                         )
@@ -153,7 +162,7 @@ fun BinInfoCard(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Phone,
-                            contentDescription = "Телефон банка",
+                            contentDescription = stringResource(R.string.desc_bank_phone),
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(16.dp)
                         )
