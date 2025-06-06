@@ -1,3 +1,35 @@
 <resources>
     <string name="app_name">BinInfo</string>
+    <string name="title_bin_lookup">BIN Lookup</string>
+    <string name="bin_number_label">Введите BIN номер</string>
+    <string name="bin_number_placeholder">Например: 431940</string>
+    <string name="btn_search">Найти информацию</string>
+    <string name="desc_search">Поиск</string>
+    <string name="desc_history">История</string>
+    <string name="history_title">История запросов</string>
+    <string name="history_empty">История пуста</string>
+    <string name="desc_back">Назад</string>
+    <string name="desc_delete">Удалить</string>
+    <string name="label_type">Тип</string>
+    <string name="label_category">Категория</string>
+    <string name="label_brand">Бренд</string>
+    <string name="label_prepaid">Предоплаченная</string>
+    <string name="label_name">Название</string>
+    <string name="label_city">Город</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="section_country">Страна</string>
+    <string name="section_bank">Банк</string>
+    <string name="desc_show_on_map">Показать на карте</string>
+    <string name="desc_bank_site">Сайт банка</string>
+    <string name="desc_bank_phone">Телефон банка</string>
+    <string name="coordinates">Координаты: %1$s, %2$s</string>
+    <string name="bin_text">BIN: %1$s</string>
+    <string name="not_available">N/A</string>
+    <string name="bin_error_length">BIN номер должен содержать минимум 6 цифр</string>
+    <string name="bin_error_empty">BIN номер не может быть пустым</string>
+    <string name="bin_error_digits">BIN номер должен содержать только цифры</string>
+    <string name="save_error">Ошибка при сохранении в историю: %1$s</string>
+    <string name="unknown_error">Произошла неизвестная ошибка</string>
+    <string name="general_error">Произошла ошибка: %1$s</string>
 </resources>

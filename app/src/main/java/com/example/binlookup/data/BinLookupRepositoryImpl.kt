@@ -1,5 +1,6 @@
 package com.example.binlookup.data.repository
 
+import android.content.Context
 import com.example.binlookup.data.local.dao.BinHistoryDao
 import com.example.binlookup.data.local.entity.BinHistoryEntity
 import com.example.binlookup.data.local.entity.toDomainModel
@@ -7,6 +8,8 @@ import com.example.binlookup.data.remote.api.BinLookupApi
 import com.example.binlookup.domain.model.BinInfo
 import com.example.binlookup.domain.repository.BinLookupRepository
 import com.example.binlookup.core.util.Resource
+import com.example.binlookup.R
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -15,7 +18,8 @@ import javax.inject.Singleton
 @Singleton
 class BinLookupRepositoryImpl @Inject constructor(
     private val api: BinLookupApi,
-    private val dao: BinHistoryDao
+    private val dao: BinHistoryDao,
+    @ApplicationContext private val context: Context
 ) : BinLookupRepository {
 
     override suspend fun getBinInfo(bin: String): Resource<BinInfo> {
@@ -40,7 +44,7 @@ class BinLookupRepositoryImpl @Inject constructor(
             Resource.Success(binInfo)
         } catch (e: Exception) {
             Resource.Error(
-                message = e.localizedMessage ?: "Произошла неизвестная ошибка"
+                message = e.localizedMessage ?: context.getString(R.string.unknown_error)
             )
         }
     }

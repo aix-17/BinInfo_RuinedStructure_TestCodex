@@ -10,12 +10,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.binlookup.core.util.IntentUtils
 import com.example.binlookup.presentation.components.BinInfoCard
+import com.example.binlookup.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,12 +41,12 @@ fun HistoryScreen(
             IconButton(onClick = onNavigateBack) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Назад"
+                    contentDescription = stringResource(R.string.desc_back)
                 )
             }
             
             Text(
-                text = "История запросов",
+                text = stringResource(R.string.history_title),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(start = 8.dp)
@@ -59,7 +61,7 @@ fun HistoryScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "История пуста",
+                    text = stringResource(R.string.history_empty),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -86,7 +88,7 @@ fun HistoryScreen(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.Delete,
-                                        contentDescription = "Удалить",
+                                        contentDescription = stringResource(R.string.desc_delete),
                                         tint = MaterialTheme.colorScheme.error
                                     )
                                 }
