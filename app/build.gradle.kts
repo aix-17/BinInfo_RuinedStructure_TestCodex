@@ -108,6 +108,18 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     // Retrofit with Scalar Converter
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
+    // Gson converter for Retrofit
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    // Gson for JSON parsing annotations
+    implementation("com.google.code.gson:gson:2.10.1")
+    // OkHttp logging interceptor
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+    // Hilt Navigation Compose
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+    // Extended material icons for additional icons like Public and History
+    implementation("androidx.compose.material:material-icons-extended")
 
 
     // Coroutines
