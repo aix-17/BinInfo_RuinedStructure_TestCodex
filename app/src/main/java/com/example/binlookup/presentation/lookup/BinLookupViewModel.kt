@@ -30,12 +30,6 @@ class BinLookupViewModel @Inject constructor(
                 _state.value = _state.value.copy(bin = event.value)
             }
             is BinLookupEvent.LookupBin -> {
-                if (_state.value.bin.length < 6) {
-                    _state.value = _state.value.copy(
-                        error = context.getString(R.string.bin_error_length)
-                    )
-                    return
-                }
                 lookupBin()
             }
             is BinLookupEvent.ClearResult -> {
