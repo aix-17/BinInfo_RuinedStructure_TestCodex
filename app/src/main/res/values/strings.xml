@@ -6,6 +6,7 @@
     <string name="btn_search">Найти информацию</string>
     <string name="desc_search">Поиск</string>
     <string name="desc_history">История</string>
+    <string name="desc_language">Язык</string>
     <string name="history_title">История запросов</string>
     <string name="history_empty">История пуста</string>
     <string name="desc_back">Назад</string>

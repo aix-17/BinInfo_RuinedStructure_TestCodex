@@ -6,8 +6,9 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Language
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -18,6 +19,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.binlookup.core.util.IntentUtils
+import com.example.binlookup.core.util.LocaleUtils
 import com.example.binlookup.presentation.components.BinInfoCard
 import com.example.binlookup.R
 
@@ -37,6 +39,8 @@ fun BinLookupScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Top bar
+        var menuExpanded by remember { mutableStateOf(false) }
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -47,12 +51,38 @@ fun BinLookupScreen(
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
-            
-            IconButton(onClick = onNavigateToHistory) {
-                Icon(
-                    imageVector = Icons.Default.History,
-                    contentDescription = stringResource(R.string.desc_history)
-                )
+
+            Row {
+                IconButton(onClick = { menuExpanded = true }) {
+                    Icon(
+                        imageVector = Icons.Default.Language,
+                        contentDescription = stringResource(R.string.desc_language)
+                    )
+                }
+
+                DropdownMenu(expanded = menuExpanded, onDismissRequest = { menuExpanded = false }) {
+                    DropdownMenuItem(
+                        text = { Text("EN") },
+                        onClick = {
+                            LocaleUtils.setLocale(context, "en")
+                            menuExpanded = false
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("RU") },
+                        onClick = {
+                            LocaleUtils.setLocale(context, "ru")
+                            menuExpanded = false
+                        }
+                    )
+                }
+
+                IconButton(onClick = onNavigateToHistory) {
+                    Icon(
+                        imageVector = Icons.Default.History,
+                        contentDescription = stringResource(R.string.desc_history)
+                    )
+                }
             }
         }
         
