@@ -16,6 +16,9 @@
     <string name="label_prepaid">Предоплаченная</string>
     <string name="label_name">Название</string>
     <string name="label_city">Город</string>
+    <string name="label_country_code">Код страны</string>
+    <string name="label_url">Сайт</string>
+    <string name="label_phone">Телефон</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="section_country">Страна</string>
