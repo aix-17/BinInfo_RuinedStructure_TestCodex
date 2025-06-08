@@ -21,6 +21,7 @@
     <string name="label_phone">Phone</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="section_card">Card</string>
     <string name="section_country">Country</string>
     <string name="section_bank">Bank</string>
     <string name="desc_show_on_map">Show on map</string>

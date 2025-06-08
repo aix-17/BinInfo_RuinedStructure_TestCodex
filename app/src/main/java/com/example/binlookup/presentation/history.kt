@@ -5,7 +5,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,28 +32,11 @@ fun HistoryScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Top bar
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(onClick = onNavigateBack) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = stringResource(R.string.desc_back)
-                )
-            }
-            
-            Text(
-                text = stringResource(R.string.history_title),
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 8.dp)
-            )
-        }
-        
+
+        TopBar(onNavigateBack = onNavigateBack)
+
         Spacer(modifier = Modifier.height(16.dp))
-        
+
         if (state.binHistory.isEmpty()) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -71,49 +53,49 @@ fun HistoryScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(state.binHistory) { binInfo ->
-                    Card(
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Column {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(8.dp),
-                                horizontalArrangement = Arrangement.End
-                            ) {
-                                IconButton(
-                                    onClick = {
-                                        viewModel.onEvent(HistoryEvent.DeleteBinHistory(binInfo.bin))
-                                    }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Delete,
-                                        contentDescription = stringResource(R.string.desc_delete),
-                                        tint = MaterialTheme.colorScheme.error
-                                    )
-                                }
-                            }
-                            
-                            Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 0.dp)) {
-                                BinInfoCard(
-                                    binInfo = binInfo,
-                                    onUrlClick = { url ->
-                                        IntentUtils.openUrl(context, url)
-                                    },
-                                    onPhoneClick = { phone ->
-                                        IntentUtils.makePhoneCall(context, phone)
-                                    },
-                                    onLocationClick = { lat, lng ->
-                                        IntentUtils.openMap(context, lat, lng)
-                                    }
+                    BinInfoCard(
+                        binInfo = binInfo,
+                        onUrlClick = { url ->
+                            IntentUtils.openUrl(context, url)
+                        },
+                        onPhoneClick = { phone ->
+                            IntentUtils.makePhoneCall(context, phone)
+                        },
+                        onLocationClick = { lat, lng ->
+                            IntentUtils.openMap(context, lat, lng)
+                        },
+                        onDeleteClick = {
+                            viewModel.onEvent(
+                                HistoryEvent.DeleteBinHistory(
+                                    binInfo.bin
                                 )
-                            }
-                            
-                            Spacer(modifier = Modifier.height(16.dp))
-                        }
-                    }
+                            )
+                        },
+                        showDeleteButton = true
+                    )
                 }
             }
         }
+    }
+}
+
+@Composable
+fun TopBar(onNavigateBack: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        IconButton(onClick = onNavigateBack) {
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = stringResource(R.string.desc_back)
+            )
+        }
+        Text(
+            text = stringResource(R.string.history_title),
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(start = 8.dp)
+        )
     }
 }

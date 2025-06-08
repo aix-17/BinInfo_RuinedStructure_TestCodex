@@ -3,9 +3,7 @@ package com.example.binlookup.presentation.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material.icons.filled.Public
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -23,6 +21,8 @@ fun BinInfoCard(
     onUrlClick: (String) -> Unit = {},
     onPhoneClick: (String) -> Unit = {},
     onLocationClick: (Double, Double) -> Unit = { _, _ -> },
+    onDeleteClick: (() -> Unit) = {},
+    showDeleteButton: Boolean,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -32,24 +32,41 @@ fun BinInfoCard(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            // BIN number
-            Text(
-                text = stringResource(R.string.bin_text, binInfo.bin),
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold
-            )
-            
+            // bin number + del button
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(R.string.bin_text, binInfo.bin),
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold
+                )
+                if (showDeleteButton){
+                DeleteButton(onDelete = onDeleteClick)}
+            }
+
             Spacer(modifier = Modifier.height(16.dp))
-            
-            // Card info
+
+            SectionHeader(title = stringResource(R.string.section_card))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column(Modifier.fillMaxWidth()) {
-                    InfoRow(stringResource(R.string.label_type), binInfo.scheme?.uppercase() ?: stringResource(R.string.not_available))
-                    InfoRow(stringResource(R.string.label_category), binInfo.type?.uppercase() ?: stringResource(R.string.not_available))
-                    InfoRow(stringResource(R.string.label_brand), binInfo.brand ?: stringResource(R.string.not_available))
+                    InfoRow(
+                        stringResource(R.string.label_type),
+                        binInfo.scheme?.uppercase() ?: stringResource(R.string.not_available)
+                    )
+                    InfoRow(
+                        stringResource(R.string.label_category),
+                        binInfo.type?.uppercase() ?: stringResource(R.string.not_available)
+                    )
+                    InfoRow(
+                        stringResource(R.string.label_brand),
+                        binInfo.brand ?: stringResource(R.string.not_available)
+                    )
                     InfoRow(
                         stringResource(R.string.label_prepaid),
                         when (binInfo.prepaid) {
@@ -60,18 +77,15 @@ fun BinInfoCard(
                     )
                 }
             }
-            
+
             // Country info
             Spacer(modifier = Modifier.height(16.dp))
             Divider()
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(
-                text = stringResource(R.string.section_country),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(8.dp))
+            SectionHeader(title = stringResource(R.string.section_country))
+
+
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -82,20 +96,6 @@ fun BinInfoCard(
                         ?: stringResource(R.string.not_available),
                     style = MaterialTheme.typography.bodyLarge
                 )
-
-//                Spacer(modifier = Modifier.weight(0.5f))
-
-//                if (binInfo.latitude != null && binInfo.longitude != null) {
-//                    IconButton(
-//                                onClick = { onLocationClick(binInfo.latitude, binInfo.longitude) }
-//                    ) {
-//                        Icon(
-//                            imageVector = Icons.Default.LocationOn,
-//                            contentDescription = stringResource(R.string.desc_show_on_map),
-//                            tint = MaterialTheme.colorScheme.primary
-//                        )
-//                    }
-//                }
             }
 
             InfoRow(
@@ -117,19 +117,14 @@ fun BinInfoCard(
                 }
             )
 
-
-
             // Bank info
             Spacer(modifier = Modifier.height(16.dp))
             Divider()
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(
-                text = stringResource(R.string.section_bank),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(8.dp))
+
+            SectionHeader(title = stringResource(R.string.section_bank))
+
 
             InfoRow(
                 stringResource(R.string.label_name),
@@ -186,10 +181,34 @@ private fun InfoRow(
             text = value,
             style = MaterialTheme.typography.bodyMedium,
             color = if (onClick != null) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.weight(0.5f)
+            modifier = Modifier.weight(0.5f)
         )
     }
 }
+
+@Composable
+private fun SectionHeader(title: String) {
+    Text(
+        text = title,
+        style = MaterialTheme.typography.titleMedium,
+        fontWeight = FontWeight.Bold
+    )
+    Spacer(modifier = Modifier.height(8.dp))
+}
+
+@Composable
+private fun DeleteButton(onDelete: () -> Unit) {
+    IconButton(
+        onClick = onDelete
+    ) {
+        Icon(
+            imageVector = Icons.Default.Delete,
+            contentDescription = stringResource(R.string.desc_delete),
+            tint = MaterialTheme.colorScheme.error
+        )
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun BinInfoCardPreview() {
@@ -212,6 +231,7 @@ fun BinInfoCardPreview() {
         ),
         onUrlClick = { },
         onPhoneClick = { },
-        onLocationClick = { _, _ -> }
+        onDeleteClick = { },
+        showDeleteButton = true
     )
 }

@@ -22,6 +22,7 @@
     <string name="label_phone">Телефон</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
+    <string name="section_card">Карта</string>
     <string name="section_country">Страна</string>
     <string name="section_bank">Банк</string>
     <string name="desc_show_on_map">Показать на карте</string>
