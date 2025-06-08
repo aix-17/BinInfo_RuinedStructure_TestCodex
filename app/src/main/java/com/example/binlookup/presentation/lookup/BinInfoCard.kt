@@ -51,130 +51,106 @@ fun BinInfoCard(
                     InfoRow(stringResource(R.string.label_brand), binInfo.brand ?: stringResource(R.string.not_available))
                     InfoRow(
                         stringResource(R.string.label_prepaid),
-                        if (binInfo.prepaid == true) stringResource(R.string.yes) else stringResource(R.string.no)
+                        when (binInfo.prepaid) {
+                            true -> stringResource(R.string.yes)
+                            false -> stringResource(R.string.no)
+                            null -> stringResource(R.string.not_available)
+                        }
                     )
                 }
             }
             
             // Country info
-            binInfo.countryName?.let { country ->
-                Spacer(modifier = Modifier.height(16.dp))
-                Divider()
-                Spacer(modifier = Modifier.height(16.dp))
-                
+            Spacer(modifier = Modifier.height(16.dp))
+            Divider()
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = stringResource(R.string.section_country),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text(
-                    text = stringResource(R.string.section_country),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
+                    text = binInfo.countryName?.let { "${binInfo.countryEmoji ?: ""} $it" }
+                        ?: stringResource(R.string.not_available),
+                    style = MaterialTheme.typography.bodyLarge
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = "${binInfo.countryEmoji ?: ""} $country",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                    
-                    Spacer(modifier = Modifier.weight(1f))
-                    
-                    if (binInfo.latitude != null && binInfo.longitude != null) {
-                        IconButton(
-                            onClick = { onLocationClick(binInfo.latitude, binInfo.longitude) }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.LocationOn,
-                                contentDescription = stringResource(R.string.desc_show_on_map),
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                        }
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                if (binInfo.latitude != null && binInfo.longitude != null) {
+                    IconButton(
+                        onClick = { onLocationClick(binInfo.latitude, binInfo.longitude) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.LocationOn,
+                            contentDescription = stringResource(R.string.desc_show_on_map),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
                     }
                 }
-                
-                if (binInfo.latitude != null && binInfo.longitude != null) {
-                    Text(
-                        text = stringResource(
-                            R.string.coordinates,
-                            binInfo.latitude,
-                            binInfo.longitude
-                        ),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.clickable {
-                            onLocationClick(binInfo.latitude, binInfo.longitude)
-                        }
-                    )
-                }
             }
+
+            InfoRow(
+                label = stringResource(R.string.label_country_code),
+                value = binInfo.countryAlpha2 ?: stringResource(R.string.not_available)
+            )
+
+            val coordinatesText = if (binInfo.latitude != null && binInfo.longitude != null) {
+                stringResource(R.string.coordinates, binInfo.latitude, binInfo.longitude)
+            } else {
+                stringResource(R.string.coordinates, stringResource(R.string.not_available), stringResource(R.string.not_available))
+            }
+
+            Text(
+                text = coordinatesText,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = if (binInfo.latitude != null && binInfo.longitude != null) {
+                    Modifier.clickable { onLocationClick(binInfo.latitude, binInfo.longitude) }
+                } else {
+                    Modifier
+                }
+            )
             
             // Bank info
-            binInfo.bankName?.let { bankName ->
-                Spacer(modifier = Modifier.height(16.dp))
-                Divider()
-                Spacer(modifier = Modifier.height(16.dp))
-                
-                Text(
-                    text = stringResource(R.string.section_bank),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                
-                InfoRow(stringResource(R.string.label_name), bankName)
-                binInfo.bankCity?.let { city ->
-                    InfoRow(stringResource(R.string.label_city), city)
-                }
-                
-                // Clickable bank URL
-                binInfo.bankUrl?.let { url ->
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { onUrlClick(url) }
-                            .padding(vertical = 4.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Public,
-                            contentDescription = stringResource(R.string.desc_bank_site),
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(16.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = url,
-                            color = MaterialTheme.colorScheme.primary,
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-                }
-                
-                // Clickable bank phone
-                binInfo.bankPhone?.let { phone ->
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { onPhoneClick(phone) }
-                            .padding(vertical = 4.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Phone,
-                            contentDescription = stringResource(R.string.desc_bank_phone),
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(16.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = phone,
-                            color = MaterialTheme.colorScheme.primary,
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-                }
-            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Divider()
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = stringResource(R.string.section_bank),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            InfoRow(
+                stringResource(R.string.label_name),
+                binInfo.bankName ?: stringResource(R.string.not_available)
+            )
+            InfoRow(
+                stringResource(R.string.label_city),
+                binInfo.bankCity ?: stringResource(R.string.not_available)
+            )
+
+            InfoRow(
+                label = stringResource(R.string.label_url),
+                value = binInfo.bankUrl ?: stringResource(R.string.not_available),
+                onClick = binInfo.bankUrl?.let { { onUrlClick(it) } }
+            )
+
+            InfoRow(
+                label = stringResource(R.string.label_phone),
+                value = binInfo.bankPhone ?: stringResource(R.string.not_available),
+                onClick = binInfo.bankPhone?.let { { onPhoneClick(it) } }
+            )
         }
     }
 }
@@ -182,12 +158,23 @@ fun BinInfoCard(
 @Composable
 private fun InfoRow(
     label: String,
-    value: String
+    value: String,
+    onClick: (() -> Unit)? = null
 ) {
-    Row(
-        modifier = Modifier
+    val rowModifier = if (onClick != null) {
+        Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+            .padding(vertical = 2.dp)
+    } else {
+        Modifier
             .fillMaxWidth()
             .padding(vertical = 2.dp)
+    }
+
+    Row(
+        modifier = rowModifier,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = "$label: ",
@@ -197,7 +184,8 @@ private fun InfoRow(
         )
         Text(
             text = value,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
+            color = if (onClick != null) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
         )
     }
 }
