@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.binlookup.domain.model.BinInfo
 import com.example.binlookup.R
@@ -45,7 +46,7 @@ fun BinInfoCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column(modifier = Modifier.weight(1f)) {
+                Column(Modifier.fillMaxWidth()) {
                     InfoRow(stringResource(R.string.label_type), binInfo.scheme?.uppercase() ?: stringResource(R.string.not_available))
                     InfoRow(stringResource(R.string.label_category), binInfo.type?.uppercase() ?: stringResource(R.string.not_available))
                     InfoRow(stringResource(R.string.label_brand), binInfo.brand ?: stringResource(R.string.not_available))
@@ -82,19 +83,19 @@ fun BinInfoCard(
                     style = MaterialTheme.typography.bodyLarge
                 )
 
-                Spacer(modifier = Modifier.weight(1f))
+//                Spacer(modifier = Modifier.weight(0.5f))
 
-                if (binInfo.latitude != null && binInfo.longitude != null) {
-                    IconButton(
-                        onClick = { onLocationClick(binInfo.latitude, binInfo.longitude) }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.LocationOn,
-                            contentDescription = stringResource(R.string.desc_show_on_map),
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                    }
-                }
+//                if (binInfo.latitude != null && binInfo.longitude != null) {
+//                    IconButton(
+//                                onClick = { onLocationClick(binInfo.latitude, binInfo.longitude) }
+//                    ) {
+//                        Icon(
+//                            imageVector = Icons.Default.LocationOn,
+//                            contentDescription = stringResource(R.string.desc_show_on_map),
+//                            tint = MaterialTheme.colorScheme.primary
+//                        )
+//                    }
+//                }
             }
 
             InfoRow(
@@ -179,12 +180,38 @@ private fun InfoRow(
             text = "$label: ",
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Medium,
-            modifier = Modifier.width(100.dp)
+            modifier = Modifier.weight(0.5f)
         )
         Text(
             text = value,
             style = MaterialTheme.typography.bodyMedium,
-            color = if (onClick != null) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+            color = if (onClick != null) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.weight(0.5f)
         )
     }
+}
+@Preview(showBackground = true)
+@Composable
+fun BinInfoCardPreview() {
+    BinInfoCard(
+        binInfo = BinInfo(
+            bin = "431940",
+            scheme = "VISA",
+            type = "CREDIT",
+            brand = "MasterCard",
+            prepaid = false,
+            countryName = "USA",
+            countryEmoji = "🇺🇸",
+            countryAlpha2 = "US",
+            latitude = 40.7128,
+            longitude = -74.0060,
+            bankName = "Example Bank",
+            bankCity = "New York",
+            bankUrl = "example.com",
+            bankPhone = "123-456-7890"
+        ),
+        onUrlClick = { },
+        onPhoneClick = { },
+        onLocationClick = { _, _ -> }
+    )
 }
