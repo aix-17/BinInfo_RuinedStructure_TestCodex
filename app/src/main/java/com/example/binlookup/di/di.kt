@@ -3,7 +3,7 @@ package com.example.binlookup.di
 import android.content.Context
 import androidx.room.Room
 import com.example.binlookup.data.local.dao.BinHistoryDao
-import com.example.binlookup.data.local.database.BinLookupDatabase
+import com.example.binlookup.data.local.BinLookupDatabase
 import com.example.binlookup.data.remote.api.BinLookupApi
 import com.example.binlookup.data.repository.BinLookupRepositoryImpl
 import com.example.binlookup.domain.repository.BinLookupRepository

@@ -7,10 +7,9 @@ plugins {
     id("com.google.devtools.ksp") version "2.1.21-2.0.1"
     id("com.google.dagger.hilt.android")
 }
-
 android {
     namespace = "com.example.binlookup"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.binlookup"

@@ -1,9 +1,7 @@
-package com.example.binlookup.data.local.database
+package com.example.binlookup.data.local
 
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
-import android.content.Context
 import com.example.binlookup.data.local.dao.BinHistoryDao
 import com.example.binlookup.data.local.entity.BinHistoryEntity
 

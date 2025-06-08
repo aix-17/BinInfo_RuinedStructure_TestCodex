@@ -13,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.example.binlookup.R
 
 @HiltViewModel
 class BinLookupViewModel @Inject constructor(

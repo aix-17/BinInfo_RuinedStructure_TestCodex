@@ -26,7 +26,8 @@
     <string name="desc_show_on_map">Показать на карте</string>
     <string name="desc_bank_site">Сайт банка</string>
     <string name="desc_bank_phone">Телефон банка</string>
-    <string name="coordinates">Координаты: %1$s, %2$s</string>
+    <string name="coordinates">%1$s, %2$s</string>
+    <string name="coordinates_text">Координаты</string>
     <string name="bin_text">BIN: %1$s</string>
     <string name="not_available">N/A</string>
     <string name="bin_error_length">BIN номер должен содержать минимум 6 цифр</string>

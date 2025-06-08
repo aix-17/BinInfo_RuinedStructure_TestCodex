@@ -102,23 +102,22 @@ fun BinInfoCard(
                 value = binInfo.countryAlpha2 ?: stringResource(R.string.not_available)
             )
 
-            val coordinatesText = if (binInfo.latitude != null && binInfo.longitude != null) {
-                stringResource(R.string.coordinates, binInfo.latitude, binInfo.longitude)
-            } else {
-                stringResource(R.string.coordinates, stringResource(R.string.not_available), stringResource(R.string.not_available))
-            }
-
-            Text(
-                text = coordinatesText,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = if (binInfo.latitude != null && binInfo.longitude != null) {
-                    Modifier.clickable { onLocationClick(binInfo.latitude, binInfo.longitude) }
+            InfoRow(
+                label = stringResource(R.string.coordinates_text),
+                value = if (binInfo.latitude != null && binInfo.longitude != null) {
+                    stringResource(R.string.coordinates, binInfo.latitude, binInfo.longitude)
                 } else {
-                    Modifier
+                    stringResource(R.string.not_available)
+                },
+                onClick = binInfo.latitude?.takeIf { binInfo.longitude != null }?.let { lat ->
+                    binInfo.longitude?.let { lng ->
+                        { onLocationClick(lat, lng) }
+                    }
                 }
             )
-            
+
+
+
             // Bank info
             Spacer(modifier = Modifier.height(16.dp))
             Divider()

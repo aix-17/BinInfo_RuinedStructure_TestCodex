@@ -6,7 +6,7 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class BinInfoApplication : Application() {
-    
+
     companion object {
         private const val TAG = "BinInfoApplication"
     }
